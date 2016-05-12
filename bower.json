@@ -1,6 +1,9 @@
 {
- "name": "ebook-frontend-project",
- "version": "0.0.1",
- "description": "Ejemplo de desarrollo de aplicación web con JavaScript",
- "dependencies": {}
+  "name": "ebook-frontend-project",
+  "version": "0.0.1",
+  "description": "Ejemplo de desarrollo de aplicación web con JavaScript",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "bootstrap": "^3.3.6"
+  }
 }
