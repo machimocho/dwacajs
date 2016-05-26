@@ -4,7 +4,9 @@
   "description": "Ejemplo de desarrollo de aplicación web con JavaScript",
   "dependencies": {
     "angular": "^1.5.5",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "angular-route": "^1.5.5",
+    "angular-resource": "^1.5.5"
   },
   "overrides": {
     "bootstrap": {

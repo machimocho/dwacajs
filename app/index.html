@@ -17,7 +17,15 @@
   <!-- endinject -->
 
  </head>
- <body>
+ <body ng-app="blog">
+   <div class="container-fluid">
+     <div class="row">
+       <aside class="col-sm-3">
+         <a ng-href="/new">Crear Entrada</a>
+       </aside>
+       <section class="col-sm-9" ng-view></section>
+     </div>
+   </div>
  <!--[if lt IE 8]>
  <p class="browsehappy">
  Estás usando un navegador <strong>desactualizado</s
@@ -35,6 +43,8 @@ III. Anatomía de una aplicación AngularJS.
  <script src="lib/angular/angular.js"></script>
  <script src="lib/jquery/dist/jquery.js"></script>
  <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+ <script src="lib/angular-route/angular-route.js"></script>
+ <script src="lib/angular-resource/angular-resource.js"></script>
  <!-- endbower -->
 
  <!-- inject:js -->
