@@ -10,8 +10,7 @@
 
   function Comment($resource, BaseUrl) {
     return $resource(BaseUrl + '/comments/:commentId', {
-      co
-      mmentId: '@_id'
+      commentId: '@_id'
     });
   }
 
