@@ -4,12 +4,23 @@ var gulp = require('gulp'),
   connect = require('gulp-connect'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
-  historyApiFallback = require('connect-history-api-fallback');
+  historyApiFallback = require('connect-history-api-fallback'),
+  templateCache = require('gulp-angular-templatecache');
 
 var stylus = require('gulp-stylus'),
   nib = require('nib');
 var inject = require('gulp-inject');
 var wiredep = require('wiredep').stream;
+
+var gulpif = require('gulp-if');
+var minifyCss = require('gulp-minify-css');
+var useref = require('gulp-useref');
+var uglify = require('gulp-uglify');
+
+var ignore = require('gulp-ignore');
+var gulpUtil = require('gulp-util');
+
+
 // Servidor web de desarrollo
 gulp.task('server', function() {
   connect.server({
@@ -69,6 +80,36 @@ gulp.task('wiredep', function() {
     }))
     .pipe(gulp.dest('./app'));
 });
+
+gulp.task('templates', function() {
+  gulp.src('./app/views/**/*.tpl.html')
+    .pipe(templateCache({
+      root: 'views/',
+      module: 'blog.templates',
+      standalone: true
+    }))
+    .pipe(gulp.dest('./app/scripts'));
+});
+
+gulp.task('compress', function() {
+  gulp.src('./app/index.html')
+    //.pipe(useref.assets())
+    .pipe(useref())
+    .pipe(ignore.exclude([ "**/*.map" ]))
+    .pipe(gulpif('*.js', uglify({mangle: false }).on('error', gulpUtil.log)))
+    .pipe(gulpif('*.css', minifyCss()))
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('copy', function() {
+  gulp.src('./app/index.html')
+    .pipe(useref())
+    .pipe(gulp.dest('./dist'));
+  gulp.src('./app/lib/fontawesome/fonts/**')
+    .pipe(gulp.dest('./dist/fonts'));
+});
+
+gulp.task('build', ['templates', 'compress', 'copy']);
 
 // Vigila cambios que se produzcan en el código
 // y lanza las tareas relacionadas
