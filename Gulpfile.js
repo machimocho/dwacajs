@@ -20,6 +20,8 @@ var uglify = require('gulp-uglify');
 var ignore = require('gulp-ignore');
 var gulpUtil = require('gulp-util');
 
+var uncss = require('gulp-uncss');
+
 
 // Servidor web de desarrollo
 gulp.task('server', function() {
@@ -109,7 +111,27 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('build', ['templates', 'compress', 'copy']);
+gulp.task('server-dist', function() {
+  connect.server({
+    root: './dist',
+    hostname: '0.0.0.0',
+    port: 8080,
+    livereload: true,
+    middleware: function(connect, opt) {
+      return [historyApiFallback];
+    }
+  });
+});
+
+gulp.task('uncss', function() {
+  gulp.src('./dist/css/style.min.css')
+    .pipe(uncss({
+      html: ['./app/index.html', './app/views/post-detail.tpl.html', './app/views/post-list.tpl.html']
+    }))
+    .pipe(gulp.dest('./dist/css'));
+});
+
+gulp.task('build', ['templates', 'compress', 'copy', 'uncss']);
 
 // Vigila cambios que se produzcan en el código
 // y lanza las tareas relacionadas
